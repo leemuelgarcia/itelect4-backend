@@ -1,54 +1,31 @@
 import { Router, Request, Response } from "express";
+import { SessionModel } from "../models/Session.js";
 
 const router = Router();
 
-const sessions = [
-  {
-    id: "1",
-    tutorId: 1,
-    title: "Introduction to Web Development",
-    description:
-      "Learn the fundamentals of HTML, CSS, and JavaScript through guided exercises.",
-    subject: "Web Development",
-    duration: 60,
-  },
-  {
-    id: "2",
-    tutorId: 1,
-    title: "TypeScript Fundamentals",
-    description:
-      "Understand TypeScript types, interfaces, unions, and generics.",
-    subject: "TypeScript",
-    duration: 60,
-  },
-  {
-    id: "3",
-    tutorId: 1,
-    title: "React Basics",
-    description:
-      "Learn React components, props, state, and basic application structure.",
-    subject: "React",
-    duration: 90,
-  },
-];
-
-router.get("/", (_req: Request, res: Response) => {
-  res.status(200).json({ sessions });
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const sessions = await SessionModel.find().sort({ id: 1 });
+    return res.status(200).json({ sessions });
+  } catch (error) {
+    console.error("Failed to fetch tutoring sessions:", error);
+    return res.status(500).json({ message: "Failed to fetch tutoring sessions" });
+  }
 });
 
-router.get("/:id", (req: Request, res: Response) => {
-  const session = sessions.find(
-    (item) => item.id === req.params.id
-  );
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const session = await SessionModel.findOne({ id: req.params.id });
 
-  if (!session) {
-    res.status(404).json({
-      message: "Tutoring session not found",
-    });
-    return;
+    if (!session) {
+      return res.status(404).json({ message: "Tutoring session not found" });
+    }
+
+    return res.status(200).json({ session });
+  } catch (error) {
+    console.error("Failed to fetch tutoring session:", error);
+    return res.status(500).json({ message: "Failed to fetch tutoring session" });
   }
-
-  res.status(200).json({ session });
 });
 
 export default router;
