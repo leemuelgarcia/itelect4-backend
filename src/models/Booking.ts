@@ -41,4 +41,15 @@ const bookingSchema = new Schema<IBooking>(
   }
 );
 
+// The frontend reads .id, so rename Mongo's _id to id and drop __v.
+bookingSchema.set("toJSON", {
+  transform(_doc, ret) {
+    const out = ret as unknown as Record<string, unknown>;
+    out.id = String(out._id);
+    delete out._id;
+    delete out.__v;
+    return out;
+  },
+});
+
 export const Booking = mongoose.model<IBooking>("Booking", bookingSchema);

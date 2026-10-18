@@ -19,8 +19,6 @@ dist-ssr
 
 # Environment / configuration
 .env
-.env.example
-tsconfig.json
 
 # Editor directories and files
 .vscode/*
