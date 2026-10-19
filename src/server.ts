@@ -6,6 +6,7 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import bookingRoutes from "./routes/bookings.js";
 import sessionRoutes from "./routes/sessions.js";
+import { aiRouter } from "./routes/ai.js";
 
 dotenv.config();
 
@@ -51,5 +52,9 @@ app.get("/", (_req, res) => {
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
+
+// ===== GT5: one more router, mounted like the others ===============
+// Private, rate limited, and the only route that talks to Gemini.
+app.use("/api/ai", aiRouter);
 
 export default app;
