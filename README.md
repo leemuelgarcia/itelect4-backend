@@ -25,6 +25,7 @@ Private (require `Authorization: Bearer <token>`):
 - `POST /api/bookings`
 - `PUT /api/bookings/:id`
 - `DELETE /api/bookings/:id`
+- `POST /api/ai` - Gemini reviews a learning goal and answers with a summary, topics, preparation steps and a clarity rating. Five requests a minute per account.
 
 ## Environment variables
 
@@ -33,6 +34,7 @@ Copy `.env.example` to `.env` and fill it in. `.env` is never committed.
 - `MONGODB_URI` - MongoDB Atlas connection string
 - `JWT_SECRET` - secret used to sign login tokens
 - `CORS_ORIGIN` - allowed frontend origin(s), comma separated. Locally `http://localhost:5173`; on Vercel the deployed frontend address.
+- `GEMINI_API_KEY` - Google Gemini key from aistudio.google.com. Server-side only: it is never sent to the browser and never committed. Set it in `.env` and in the Vercel project.
 - `PORT` - local development port only. Not set on Vercel.
 
 ## Run locally
@@ -47,6 +49,12 @@ Seed the tutoring sessions (safe to run more than once, it updates by id):
 
 ```bash
 npx tsx src/seedSessions.ts
+```
+
+Try the AI review from the terminal (one real request to Gemini, no server needed):
+
+```bash
+npm run try-ai
 ```
 
 Type-check and build:
