@@ -1,12 +1,12 @@
 // ===== GT5: a NEW file ==============================================
 import type { Review } from "../schemas/review.js";
 
-// An alias, not a version. Google points it at the current Flash
-// model, so a model being retired does not break this app between
-// now and the end of the semester. The cost: the model can change
-// underneath you, so the same prompt may answer a little differently
-// next month.
-export const MODEL = "gemini-flash-latest";
+// An alias, not a version. Google points it at the current Flash-Lite
+// model (the smaller, faster Flash), so a model being retired does not
+// break this app between now and the end of the semester. The cost: the
+// model can change underneath you, so the same prompt may answer a
+// little differently next month. Flash-Lite trades some care for speed.
+export const MODEL = "gemini-flash-lite-latest";
 
 // The system prompt: the instructions that apply to EVERY request,
 // sent separately from what the student typed.
